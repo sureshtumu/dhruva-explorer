@@ -24,24 +24,29 @@ Profit, XIRR and the Nifty comparison update instantly, with a chart tracking th
 > as accurately as the data allows, and figures are gross of brokerage, taxes and
 > slippage. Consult the TechnoFunda / Dhruva team for access to the Dhruva portal.
 
-## Design notes
+## Architecture — data stays private
 
-- **Self-contained.** Everything — data, styling, and logic — lives in `index.html`.
-  There are no external data files, no build step, and no runtime fetches. The only
-  external call is the (optional) GoatCounter stats script.
-- **Fresh-extract model.** The month-by-month figures are baked into the page as of the
-  last pipeline run. There is no stored series or server; the page reflects one snapshot.
+The raw dataset (per-stock monthly signals and prices) is **not** shipped to the
+browser. It lives in a private Supabase Storage bucket, and the calculation runs in a
+Supabase Edge Function server-side. The page sends only the user's inputs (₹ per stock,
+pick mode, window) and receives only the computed results (profit, XIRR, Nifty
+comparison, chart points). So a visitor can use the tool but cannot download the
+underlying tickers, signals, or prices.
 
-## Updating
+- **Page (`index.html`, this repo):** UI + chart only, no data, no strategy logic.
+- **Compute + data:** Supabase project `dhruva-calculator` — Edge Function `dhruva-calc`
+  reads `D.json` from the private `data` bucket and returns results.
 
-The pipeline runs irregularly (no fixed cadence). To refresh the site after a new run:
+## Updating the data after a new pipeline run
 
-1. Regenerate the HTML from the pipeline.
-2. Rename it to `index.html`.
-3. In this repo: **Add file → Upload files**, drop in the new `index.html`, and commit
-   to `main`.
+The pipeline runs irregularly (no fixed cadence). To refresh:
 
-The URL stays the same and GitHub Pages redeploys automatically within a minute.
+1. Regenerate the data as `D.json`.
+2. In Supabase → Storage → `data` bucket, replace `D.json` (upload, overwrite).
+
+That's it — the page and function are unchanged, and the Edge Function picks up the new
+data (it caches per warm instance, so a new deploy or a short wait refreshes the cache).
+The public URL stays the same.
 
 ## Stats
 

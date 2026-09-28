@@ -185,6 +185,11 @@ var _t;function renderD(){clearTimeout(_t);_t=setTimeout(render,220);}
 ['amt','mode','maxn','win'].forEach(function(id){document.getElementById(id).oninput=renderD; document.getElementById(id).onchange=render;});
 render();
 </script>
+<script>
+/* Discourage casual right-click save/copy. Note: a speed bump only — keyboard
+   shortcuts and browser dev tools can still reach the page. */
+document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+</script>
 <!-- GoatCounter stats (same account as the retirement calculator) -->
 <script data-goatcounter="https://sureshtumu.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>

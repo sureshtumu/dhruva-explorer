@@ -1,36 +1,36 @@
-# Technofunda Dhruva Explorer
+# Dhruva — Core Stock Portfolio Performance Analysis with Monthly Trading Rules
 
-An interactive, single-page explorer for the **Technofunda Dhruva Platform** — a
-rules-based NSE equity strategy that buys on every first "1G" signal and sells on
-every "3R" signal, rebalanced on the first Tuesday of each month.
+An interactive **what-if calculator** for the **Technofunda Dhruva Platform** — a
+rules-based NSE equity strategy that buys on every "1G" signal and sells on every
+"3R" signal on the first Tuesday of each month, recycling the proceeds of every sale
+back into the next buys.
 
 **Live:** https://sureshtumu.github.io/dhruva-explorer
 
-## What it shows
+## What it does
 
-Pick any start month between **Jan 2024 and early 2026** and the page recomputes the
-whole run from a fresh start at that month — buys, sells, cumulative P&L, XIRR, and
-peak capital — measured against the Nifty 50 over the exact same window.
+Change two things and watch the whole result recompute live against the Nifty 50 over
+the same ~2.5-year window:
 
-The headline result: **the process beat the Nifty in all 27 of 27 start months.**
-Even the worst case (starting Jun 2024, a clean 2.09-year window) still came in at
-**27.7% XIRR vs 5.3% Nifty** — a ~22 percentage-point-a-year edge.
+- **Rupees per stock** — how much goes into each buy (₹1,000 / ₹5,000 / ₹10,000, or any
+  amount).
+- **How you pick stocks each month** — buy *all* green (1G) stocks (the full process),
+  or cap it to the first N (e.g. alphabetically), to see how selection discipline
+  changes the outcome.
 
-Two views:
+Profit, XIRR and the Nifty comparison update instantly, with a chart tracking the run.
 
-- **Explorer** — headline cards, a per-month rhythm chart (buys / sells / cumulative
-  P&L vs a Nifty-on-same-capital line), and a table of every start month you can click
-  to select or play.
-- **Movie** — a ~60-second animated month-by-month replay of any run, with scrubbing,
-  speed controls, and a manual step-through mode.
+> Experimental study — not investment advice. Tickers and monthly signals were captured
+> as accurately as the data allows, and figures are gross of brokerage, taxes and
+> slippage. Consult the TechnoFunda / Dhruva team for access to the Dhruva portal.
 
 ## Design notes
 
 - **Self-contained.** Everything — data, styling, and logic — lives in `index.html`.
   There are no external data files, no build step, and no runtime fetches. The only
-  external calls are the (optional) GoatCounter stats script.
-- **Fresh-extract model.** Every month's figures are baked into the page as of the last
-  pipeline run. There is no stored series or server; the page reflects one snapshot.
+  external call is the (optional) GoatCounter stats script.
+- **Fresh-extract model.** The month-by-month figures are baked into the page as of the
+  last pipeline run. There is no stored series or server; the page reflects one snapshot.
 
 ## Updating
 
@@ -51,4 +51,4 @@ Visitor stats are collected via [GoatCounter](https://www.goatcounter.com/)
 ---
 
 *Suresh Tumu · AMFI-certified · TechnoFunda community*
-*Designed & developed using Claude — Anthropic AI skills.*
+*Prepared with Claude AI. Thanks to Vivek Mashrani & team.*
